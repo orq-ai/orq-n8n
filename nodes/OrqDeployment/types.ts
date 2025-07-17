@@ -31,17 +31,17 @@ export interface OrqFixedCollectionMessages {
 	messageProperty: OrqMessageProperty[];
 }
 
-export interface OrqFixedCollectionContext {
-	contextProperty: OrqContextProperty[];
-}
-
 export interface OrqFixedCollectionInputs {
 	inputProperty: OrqInputProperty[];
 }
 
+export interface OrqFixedCollectionContext {
+	contextProperty: OrqContextProperty[];
+}
+
 export interface OrqRequestBody {
 	key: string;
-	messages?: OrqInputMessage[];
+	messages: OrqInputMessage[];
 	context?: Record<string, string>;
 	inputs?: Record<string, string>;
 }
@@ -106,5 +106,13 @@ export interface OrqDeploymentListResponse {
 
 export interface OrqCredentials {
 	baseUrl?: string;
+	apiKey: string;
+}
+
+export interface OrqDeploymentConfig {
+	id: string;
 	key: string;
+	name?: string;
+	messages?: OrqInputMessage[];
+	[key: string]: string | number | boolean | object | undefined;
 }

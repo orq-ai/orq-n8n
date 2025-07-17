@@ -34,5 +34,8 @@ export class Validators {
 		if (!credentials) {
 			throw new NodeOperationError(node, ERROR_MESSAGES.NO_CREDENTIALS);
 		}
+		if (!credentials.apiKey) {
+			throw new NodeOperationError(node, 'API Key is required in credentials');
+		}
 	}
 }

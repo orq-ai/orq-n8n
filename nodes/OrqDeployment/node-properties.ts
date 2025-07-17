@@ -45,18 +45,9 @@ export const messagesProperty: INodeProperties = {
 					description: 'The role of the messages author',
 					required: true,
 					options: [
-						{
-							name: 'User',
-							value: 'user',
-						},
-						{
-							name: 'System',
-							value: 'system',
-						},
-						{
-							name: 'Assistant',
-							value: 'assistant',
-						},
+						{ name: 'User', value: 'user' },
+						{ name: 'System', value: 'system' },
+						{ name: 'Assistant', value: 'assistant' },
 					]
 				},
 				{
@@ -102,9 +93,6 @@ export const contextProperty: INodeProperties = {
 					description: 'Context key',
 					default: '',
 					placeholder: 'key...',
-					typeOptions: {
-						rows: 1,
-					},
 				},
 				{
 					displayName: 'Value',
@@ -113,9 +101,6 @@ export const contextProperty: INodeProperties = {
 					description: 'Context value',
 					default: '',
 					placeholder: 'value...',
-					typeOptions: {
-						rows: 1,
-					},
 				}
 			]
 		}
@@ -126,14 +111,18 @@ export const inputsProperty: INodeProperties = {
 	displayName: 'Inputs',
 	name: 'inputs',
 	type: 'fixedCollection',
-	description: 'Input key-value pairs',
+	description: 'Input key-value pairs. Add one for each variable found in the deployment\'s system messages.',
 	default: {},
 	typeOptions: {
 		multipleValues: true,
+		maxValue: 10,
 	},
 	displayOptions: {
 		show: {
 			operation: ['deployment'],
+		},
+		hide: {
+			deploymentKey: [''],
 		},
 	},
 	options: [
@@ -142,15 +131,18 @@ export const inputsProperty: INodeProperties = {
 			name: 'inputProperty',
 			values: [
 				{
+					// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
 					displayName: 'Key',
 					name: 'key',
-					type: 'string',
-					description: 'Input key',
+					type: 'options',
+					// eslint-disable-next-line n8n-nodes-base/node-param-description-wrong-for-dynamic-options
+					description: 'Input key. Select deployment key first, then set context values if needed.',
 					default: '',
-					placeholder: 'key...',
 					typeOptions: {
-						rows: 1,
+						loadOptionsMethod: 'getInputKeysFromConfig',
+						loadOptionsDependsOn: ['deploymentKey'],
 					},
+					options: [],
 				},
 				{
 					displayName: 'Value',
@@ -158,7 +150,7 @@ export const inputsProperty: INodeProperties = {
 					type: 'string',
 					description: 'Input value',
 					default: '',
-					placeholder: 'value...',
+					placeholder: 'Enter value...',
 					typeOptions: {
 						rows: 1,
 					},
@@ -188,6 +180,7 @@ export const allProperties: INodeProperties[] = [
 	operationProperty,
 	deploymentKeyProperty,
 	messagesProperty,
+	// uncomment for CONTEXT USE
+	// contextProperty,
 	inputsProperty,
-	contextProperty,
 ];

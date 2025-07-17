@@ -10,14 +10,13 @@ import {
 
 import {
 	OrqFixedCollectionMessages,
-	OrqFixedCollectionContext,
 	OrqFixedCollectionInputs,
 	OrqCredentials,
 } from './types';
 
 import { allProperties } from './node-properties';
 import { OrqApiService } from './api-service';
-import { MessageBuilder, ContextBuilder, InputsBuilder, RequestBodyBuilder } from './builders';
+import { MessageBuilder, InputsBuilder, RequestBodyBuilder } from './builders';
 import { Validators } from './validators';
 
 export class OrqDeployment implements INodeType {
@@ -48,6 +47,9 @@ export class OrqDeployment implements INodeType {
 			async getDeploymentKeys(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
 				return OrqApiService.getDeploymentKeys(this);
 			},
+			async getInputKeysFromConfig(this: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+				return OrqApiService.getInputKeysFromConfig(this);
+			},
 		},
 	};
 
@@ -61,12 +63,14 @@ export class OrqDeployment implements INodeType {
 			const messagesData = this.getNodeParameter('messages', i) as OrqFixedCollectionMessages;
 
 			// Get context and inputs
-			const context = this.getNodeParameter('context', i) as OrqFixedCollectionContext;
+			// uncomment for CONTEXT USE
+			// const context = this.getNodeParameter('context', i) as OrqFixedCollectionContext;
+			// const contextObj = ContextBuilder.buildContext(context, this.getNode());
+
 			const inputs = this.getNodeParameter('inputs', i) as OrqFixedCollectionInputs;
 
 			// Build
 			const messages = MessageBuilder.buildMessages(messagesData);
-			const contextObj = ContextBuilder.buildContext(context, this.getNode());
 			const inputsObj = InputsBuilder.buildInputs(inputs, this.getNode());
 
 			// Validate required fields
@@ -74,8 +78,9 @@ export class OrqDeployment implements INodeType {
 			Validators.validateMessages(messages, this.getNode());
 			
 			// Build request body
-			const body = RequestBodyBuilder.build(deploymentKey, messages, contextObj, inputsObj);
-
+			// uncomment for CONTEXT USE
+			// const body = RequestBodyBuilder.build(deploymentKey, messages, contextObj, inputsObj);
+			const body = RequestBodyBuilder.build(deploymentKey, messages, inputsObj);
 			try {
 				// Get credentials
 				const credentials = await this.getCredentials('orqApi') as OrqCredentials;
@@ -90,12 +95,15 @@ export class OrqDeployment implements INodeType {
 					returnData.push({ 
 						json: { 
 							error: error.message || 'Request failed',
-							statusCode: error.response?.status || 'Unknown'
+							statusCode: error.response?.status || error.statusCode || 'Unknown',
+							details: error.response?.data || error.description || undefined
 						} 
 					});
 					continue;
 				}
-				throw new NodeOperationError(this.getNode(), error.message || 'Request failed');
+				throw new NodeOperationError(this.getNode(), error.message || 'Request failed', {
+					description: error.response?.data?.message || error.description
+				});
 			}
 		}
 
