@@ -21,13 +21,6 @@ export class OrqApi implements ICredentialType {
 			required: true,
 			description: 'Your Orq API key',
 		},
-		{
-			displayName: 'Base URL',
-			name: 'baseUrl',
-			type: 'string',
-			default: 'https://api.orq.ai',
-			description: 'The base URL for the Orq API',
-		},
 	];
 
 	authenticate: IAuthenticateGeneric = {
@@ -41,7 +34,7 @@ export class OrqApi implements ICredentialType {
 
 	test: ICredentialTestRequest = {
 		request: {
-			baseURL: '={{$credentials.baseUrl}}',
+			baseURL: 'https://api.orq.ai',
 			url: '/v2/deployments',
 			method: 'GET',
 		},

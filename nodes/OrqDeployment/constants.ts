@@ -1,7 +1,6 @@
 export const DEFAULT_BASE_URL = 'https://api.orq.ai';
 export const DEPLOYMENT_INVOKE_ENDPOINT = '/v2/deployments/invoke';
 export const DEPLOYMENTS_LIST_ENDPOINT = '/v2/deployments';
-export const DEPLOYMENT_CONFIG_ENDPOINT = '/v2/deployments';
 
 export const MESSAGE_LENGTH_LIMIT = 100000; // 100KB limit
 export const REQUEST_TIMEOUT = 30000; // 30 seconds

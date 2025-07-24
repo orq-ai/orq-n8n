@@ -7,9 +7,25 @@ export interface OrqDeployment {
 	status?: string;
 }
 
+export interface OrqContentItem {
+	type: 'text' | 'image_url' | 'input_audio' | 'file';
+	text?: string;
+	image_url?: {
+		url: string;
+	};
+	input_audio?: {
+		data: string;
+		format: 'wav' | 'mp3';
+	};
+	file?: {
+		file_data: string;
+		filename: string;
+	};
+}
+
 export interface OrqInputMessage {
 	role: 'user' | 'system' | 'assistant';
-	content: string;
+	content: string | OrqContentItem[];
 }
 
 export interface OrqContextProperty {
@@ -24,7 +40,15 @@ export interface OrqInputProperty {
 
 export interface OrqMessageProperty {
 	role: 'user' | 'system' | 'assistant';
-	message: string;
+	contentType?: 'text' | 'image' | 'input_audio' | 'file';
+	message?: string;
+	imageSource?: 'url' | 'base64';
+	imageUrl?: string;
+	imageData?: string;
+	audioData?: string;
+	audioFormat?: 'wav' | 'mp3';
+	fileData?: string;
+	fileName?: string;
 }
 
 export interface OrqFixedCollectionMessages {
@@ -105,7 +129,6 @@ export interface OrqDeploymentListResponse {
 }
 
 export interface OrqCredentials {
-	baseUrl?: string;
 	apiKey: string;
 }
 

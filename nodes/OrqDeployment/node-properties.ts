@@ -12,11 +12,6 @@ export const deploymentKeyProperty: INodeProperties = {
 		loadOptionsMethod: 'getDeploymentKeys',
 	},
 	options: [],
-	displayOptions: {
-		show: {
-			operation: ['deployment'],
-		},
-	},
 };
 
 export const messagesProperty: INodeProperties = {
@@ -27,15 +22,11 @@ export const messagesProperty: INodeProperties = {
 	typeOptions: {
 		multipleValues: true,
 	},
-	displayOptions: {
-		show: {
-			operation: ['deployment'],
-		},
-	},
 	options: [
 		{
 			displayName: 'Message Property',
 			name: 'messageProperty',
+			// eslint-disable-next-line n8n-nodes-base/node-param-fixed-collection-type-unsorted-items
 			values: [
 				{
 					displayName: 'Role',
@@ -45,21 +36,200 @@ export const messagesProperty: INodeProperties = {
 					description: 'The role of the messages author',
 					required: true,
 					options: [
-						{ name: 'User', value: 'user' },
-						{ name: 'System', value: 'system' },
 						{ name: 'Assistant', value: 'assistant' },
+						{ name: 'System', value: 'system' },
+						{ name: 'User', value: 'user' },
 					]
+				},
+				// Audio Data field commented out
+				// {
+				// 	displayName: 'Audio Data',
+				// 	name: 'audioData',
+				// 	type: 'string',
+				// 	default: '',
+				// 	description: 'Base64 encoded audio data',
+				// 	required: true,
+				// 	displayOptions: {
+				// 		show: {
+				// 			role: ['user'],
+				// 			contentType: ['input_audio'],
+				// 		},
+				// 	},
+				// },
+				// Audio Format field commented out
+				// {
+				// 	displayName: 'Audio Format',
+				// 	name: 'audioFormat',
+				// 	type: 'options',
+				// 	default: 'wav',
+				// 	required: true,
+				// 	options: [
+				// 		{ name: 'WAV', value: 'wav' },
+				// 		{ name: 'MP3', value: 'mp3' },
+				// 	],
+				// 	displayOptions: {
+				// 		show: {
+				// 			role: ['user'],
+				// 			contentType: ['input_audio'],
+				// 		},
+				// 	},
+				// },
+				{
+					displayName: 'Content Type',
+					name: 'contentType',
+					type: 'options',
+					default: 'text',
+					description: 'Type of content to send',
+					options: [
+						{ name: 'Text', value: 'text' },
+						{ name: 'Image', value: 'image' },
+						// Audio and File support commented out for now
+						// { name: 'Audio', value: 'input_audio' },
+						// { name: 'File', value: 'file' },
+					],
+					displayOptions: {
+						show: {
+							role: ['user'],
+						},
+					},
+				},
+				// File Data field commented out
+				// {
+				// 	displayName: 'File Data',
+				// 	name: 'fileData',
+				// 	type: 'string',
+				// 	default: '',
+				// 	description: 'Base64 encoded file data',
+				// 	placeholder: 'Enter base64 encoded file data...',
+				// 	required: true,
+				// 	typeOptions: {
+				// 		rows: 4,
+				// 	},
+				// 	displayOptions: {
+				// 		show: {
+				// 			role: ['user'],
+				// 			contentType: ['file'],
+				// 		},
+				// 	},
+				// },
+				// File Name field commented out
+				// {
+				// 	displayName: 'File Name',
+				// 	name: 'fileName',
+				// 	type: 'string',
+				// 	default: '',
+				// 	description: 'Name of the file including extension',
+				// 	placeholder: 'document.pdf',
+				// 	required: true,
+				// 	displayOptions: {
+				// 		show: {
+				// 			role: ['user'],
+				// 			contentType: ['file'],
+				// 		},
+				// 	},
+				// },
+				{
+					displayName: 'Image Source',
+					name: 'imageSource',
+					type: 'options',
+					default: 'url',
+					description: 'How to provide the image',
+					options: [
+						{ name: 'Image URL', value: 'url' },
+						{ name: 'Base64 Data URI', value: 'base64' },
+					],
+					displayOptions: {
+						show: {
+							role: ['user'],
+							contentType: ['image'],
+						},
+					},
+				},
+				{
+					displayName: 'Image URL',
+					name: 'imageUrl',
+					type: 'string',
+					default: '',
+					description: 'URL of the image',
+					placeholder: 'https://example.com/image.png',
+					required: true,
+					displayOptions: {
+						show: {
+							role: ['user'],
+							contentType: ['image'],
+							imageSource: ['url'],
+						},
+					},
+				},
+				{
+					displayName: 'Base64 Data URI',
+					name: 'imageData',
+					type: 'string',
+					default: '',
+					description: 'Base64 encoded image data',
+					placeholder: 'data:image/png;base64,iVBORw0...',
+					required: true,
+					typeOptions: {
+						rows: 4,
+					},
+					displayOptions: {
+						show: {
+							role: ['user'],
+							contentType: ['image'],
+							imageSource: ['base64'],
+						},
+					},
 				},
 				{
 					displayName: 'Message',
 					name: 'message',
 					type: 'string',
-					required: true,
 					default: '',
-					description: 'The message to send to the deployment',
+					description: 'The text message to send',
+					placeholder: 'Enter your message...',
+					required: true,
+					typeOptions: {
+						rows: 3,
+					},
+					displayOptions: {
+						show: {
+							role: ['system', 'assistant'],
+						},
+					},
+				},
+				{
+					displayName: 'Message (Optional)',
+					name: 'message',
+					type: 'string',
+					default: '',
+					description: 'Optional text to accompany the image',
+					placeholder: 'Describe what you want to do with this image...',
+					typeOptions: {
+						rows: 2,
+					},
+					displayOptions: {
+						show: {
+							role: ['user'],
+							contentType: ['image'],
+						},
+					},
+					hint: 'Some models require text with images while others work with images alone. Check your model documentation.',
+				},
+				{
+					displayName: 'Message',
+					name: 'message',
+					type: 'string',
+					default: '',
+					description: 'The text message to send',
 					placeholder: 'Enter your message...',
 					typeOptions: {
 						rows: 3,
+					},
+					displayOptions: {
+						show: {
+							role: ['user'],
+							contentType: ['text'],
+						},
 					},
 				}
 			]
@@ -71,15 +241,10 @@ export const contextProperty: INodeProperties = {
 	displayName: 'Context',
 	name: 'context',
 	type: 'fixedCollection',
-	description: 'Context key-value pairs',
+	description: 'Context key-value pairs. <a href="https://docs.orq.ai/docs/deployment-routing" target="_blank">Learn more about deployment routing</a>.',
 	default: {},
 	typeOptions: {
 		multipleValues: true,
-	},
-	displayOptions: {
-		show: {
-			operation: ['deployment'],
-		},
 	},
 	options: [
 		{
@@ -92,7 +257,7 @@ export const contextProperty: INodeProperties = {
 					type: 'string',
 					description: 'Context key',
 					default: '',
-					placeholder: 'key...',
+					placeholder: 'e.g. environment',
 				},
 				{
 					displayName: 'Value',
@@ -100,7 +265,7 @@ export const contextProperty: INodeProperties = {
 					type: 'string',
 					description: 'Context value',
 					default: '',
-					placeholder: 'value...',
+					placeholder: 'e.g. production',
 				}
 			]
 		}
@@ -111,19 +276,11 @@ export const inputsProperty: INodeProperties = {
 	displayName: 'Inputs',
 	name: 'inputs',
 	type: 'fixedCollection',
-	description: 'Input key-value pairs. Add one for each variable found in the deployment\'s system messages.',
+	description: 'Input key-value pairs. Add one for each variable found in the deployment messages.',
 	default: {},
 	typeOptions: {
 		multipleValues: true,
 		maxValue: 10,
-	},
-	displayOptions: {
-		show: {
-			operation: ['deployment'],
-		},
-		hide: {
-			deploymentKey: [''],
-		},
 	},
 	options: [
 		{
@@ -131,18 +288,12 @@ export const inputsProperty: INodeProperties = {
 			name: 'inputProperty',
 			values: [
 				{
-					// eslint-disable-next-line n8n-nodes-base/node-param-display-name-wrong-for-dynamic-options
 					displayName: 'Key',
 					name: 'key',
-					type: 'options',
-					// eslint-disable-next-line n8n-nodes-base/node-param-description-wrong-for-dynamic-options
-					description: 'Input key. Select deployment key first, then set context values if needed.',
+					type: 'string',
+					description: 'Input key',
 					default: '',
-					typeOptions: {
-						loadOptionsMethod: 'getInputKeysFromConfig',
-						loadOptionsDependsOn: ['deploymentKey'],
-					},
-					options: [],
+					placeholder: 'key...',
 				},
 				{
 					displayName: 'Value',
@@ -150,7 +301,7 @@ export const inputsProperty: INodeProperties = {
 					type: 'string',
 					description: 'Input value',
 					default: '',
-					placeholder: 'Enter value...',
+					placeholder: 'value...',
 					typeOptions: {
 						rows: 1,
 					},
@@ -160,27 +311,9 @@ export const inputsProperty: INodeProperties = {
 	]
 };
 
-export const operationProperty: INodeProperties = {
-	displayName: 'Operation',
-	name: 'operation',
-	type: 'options',
-	required: true,
-	default: 'deployment',
-	noDataExpression: true,
-	options: [
-		{
-			name: 'Deployment Invoke',
-			value: 'deployment',
-			action: 'Invoke an orq deployment',
-		},
-	],
-};
-
 export const allProperties: INodeProperties[] = [
-	operationProperty,
 	deploymentKeyProperty,
-	messagesProperty,
-	// uncomment for CONTEXT USE
-	// contextProperty,
+	contextProperty,
 	inputsProperty,
+	messagesProperty,
 ];
