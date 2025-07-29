@@ -9,7 +9,7 @@ export class OrqApiService {
 		try {
 			const response = await context.helpers.requestWithAuthentication.call(context, 'orqApi', {
 				method: 'GET',
-				url: `${baseUrl}${DEPLOYMENTS_LIST_ENDPOINT}`,
+				url: `${baseUrl}${DEPLOYMENTS_LIST_ENDPOINT}?limit=50`,
 				json: true,
 			}) as OrqDeploymentListResponse;
 
