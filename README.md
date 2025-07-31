@@ -1,5 +1,8 @@
 # n8n-nodes-orq
 
+[![npm version](https://badge.fury.io/js/n8n-nodes-orq.svg)](https://badge.fury.io/js/n8n-nodes-orq)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 This is an n8n community node that lets you use Orq.ai deployments in your n8n workflows.
 
 [Orq.ai](https://orq.ai) is a unified platform for building and deploying AI applications with advanced prompt management, model routing, and deployment capabilities.
