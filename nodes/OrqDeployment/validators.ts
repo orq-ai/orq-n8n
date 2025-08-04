@@ -1,6 +1,6 @@
 import { NodeOperationError } from 'n8n-workflow';
 import { INode } from 'n8n-workflow';
-import { KEY_VALIDATION_REGEX, ERROR_MESSAGES, MESSAGE_LENGTH_LIMIT } from './constants';
+import { KEY_VALIDATION_REGEX, ERROR_MESSAGES } from './constants';
 import { OrqInputMessage } from './types';
 
 export class Validators {
@@ -13,11 +13,6 @@ export class Validators {
 	static validateMessages(messages: OrqInputMessage[], node: INode): void {
 		if (messages.length === 0) {
 			throw new NodeOperationError(node, ERROR_MESSAGES.MESSAGE_REQUIRED);
-		}
-
-		const totalMessageLength = messages.reduce((sum, msg) => sum + msg.content.length, 0);
-		if (totalMessageLength > MESSAGE_LENGTH_LIMIT) {
-			throw new NodeOperationError(node, ERROR_MESSAGES.MESSAGE_TOO_LONG);
 		}
 	}
 

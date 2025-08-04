@@ -85,15 +85,30 @@ export class OrqDeployment implements INodeType {
 				const response = await OrqApiService.invokeDeployment(this, body);
 
 				// Add debug info to response
-				const responseWithDebug = {
-					...response,
-					_debug: {
-						messages: messages,
-						requestBody: body
-					}
-				};
+				// const responseWithDebug = {
+				// 	...response,
+				// 	_debug: {
+				// 		requestBody: body
+				// 	}
+				// };
+				// returnData.push({ json: responseWithDebug });
 
-				returnData.push({ json: responseWithDebug });
+				// Convert OrqApiResponse to a plain object
+				const responseData = {
+					id: response.id,
+					created: response.created,
+					object: response.object,
+					model: response.model,
+					provider: response.provider,
+					isFinal: response.isFinal,
+					integrationId: response.integrationId,
+					finalized: response.finalized,
+					systemFingerprint: response.systemFingerprint,
+					retrievals: response.retrievals,
+					providerResponse: response.providerResponse,
+					choices: response.choices,
+				};
+				returnData.push({ json: responseData });
 			} catch (error: any) {
 				if (this.continueOnFail()) {
 					returnData.push({ 
@@ -101,23 +116,22 @@ export class OrqDeployment implements INodeType {
 							error: error.message || 'Request failed',
 							statusCode: error.response?.status || error.statusCode || 'Unknown',
 							details: error.response?.data || error.description || undefined,
-							_debug: {
-								messages: messages,
-								requestBody: body
-							}
+							// _debug: {
+							// 	requestBody: body
+							// }
 						} 
 					});
 					continue;
 				}
 				
 				// Include debug info in error description
-				const debugInfo = JSON.stringify({
-					messages: messages,
-					requestBody: body
-				}, null, 2);
+				// const debugInfo = JSON.stringify({
+				// 	requestBody: body
+				// }, null, 2);
 				
 				throw new NodeOperationError(this.getNode(), error.message || 'Request failed', {
-					description: `${error.response?.data?.message || error.description || ''}\n\nDEBUG INFO:\n${debugInfo}`
+					// description: `${error.response?.data?.message || error.description || ''}\n\nDEBUG INFO:\n${debugInfo}`
+					description: `${error.response?.data?.message || error.description}`
 				});
 			}
 		}

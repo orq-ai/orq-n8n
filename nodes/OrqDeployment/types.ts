@@ -1,28 +1,36 @@
 export interface OrqDeployment {
-	name?: string;
+	id: string;
+	created: string;
+	updated: string;
 	key: string;
-	description?: string;
-	created_at?: string;
-	updated_at?: string;
-	status?: string;
+	description: string;
+	promptConfig: {
+		tools: Array<{
+			type: string;
+			function: {
+				name: string;
+				parameters: {
+					type: "object";
+					properties: Record<string, unknown>;
+				};
+			};
+		}>;
+		model: string;
+		modelType: string;
+		modelParameters: Record<string, unknown>;
+		provider: string;
+		messages: unknown[];
+	};
+	version: string;
 }
 
 export interface OrqContentItem {
-	type: 'text' | 'image_url' | 'input_audio' | 'file';
+	type: 'text' | 'image_url';
 	text?: string;
-	image_url?: {
+	imageUrl?: {
 		url: string;
 	};
-	input_audio?: {
-		data: string;
-		format: 'wav' | 'mp3';
-	};
-	file?: {
-		file_data: string;
-		filename: string;
-	};
 }
-
 export interface OrqInputMessage {
 	role: 'user' | 'system' | 'assistant';
 	content: string | OrqContentItem[];
@@ -112,20 +120,23 @@ export interface OrqProviderResponse {
 
 export interface OrqApiResponse {
 	id: string;
-	created: string;
+	created: Date | string;
 	object: string;
-	model?: string;
-	provider?: string;
-	is_final?: boolean;
-	finalized?: string;
+	model: string;
+	provider: string;
+	isFinal: boolean;
+	integrationId?: string;
+	finalized?: Date | string;
+	systemFingerprint?: string;
+	retrievals?: any[];
+	providerResponse?: any;
 	choices: OrqChoice[];
-	provider_response?: OrqProviderResponse;
-	[key: string]: string | number | boolean | object | undefined;
 }
 
 export interface OrqDeploymentListResponse {
-	data?: OrqDeployment[];
-	[key: string]: string | number | boolean | object | undefined;
+	object: "list";
+	data: OrqDeployment[];
+	hasMore: boolean;
 }
 
 export interface OrqCredentials {

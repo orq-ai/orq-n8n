@@ -6,7 +6,7 @@ import {
 	OrqFixedCollectionContext,
 	OrqFixedCollectionInputs,
 	OrqRequestBody,
-	OrqContentItem
+	OrqContentItem,
 } from './types';
 import { Validators } from './validators';
 import { INode } from 'n8n-workflow';
@@ -37,58 +37,36 @@ export class MessageBuilder {
 						});
 					}
 					
-					switch (item.contentType) {
-						case 'image':
-							if (item.imageSource === 'base64' && item.imageData) {
-								contentItems.push({
-									type: 'image_url',
-									image_url: {
-										url: item.imageData
-									}
-								});
-							} else if (item.imageSource === 'url' && item.imageUrl) {
-								contentItems.push({
-									type: 'image_url',
-									image_url: {
-										url: item.imageUrl
-									}
-								});
-							} else if (!item.imageSource && item.imageUrl) {
-								// Backward compatibility
-								contentItems.push({
-									type: 'image_url',
-									image_url: {
-										url: item.imageUrl
-									}
-								});
+					if (item.contentType === 'image') {
+						if (item.imageSource === 'base64' && item.imageData) {
+							let base64Data = item.imageData.trim();
+							// Ensure we have a proper data URI
+							if (!base64Data.startsWith('data:')) {
+								// If it's just base64, add the data URI prefix
+								base64Data = `data:image/png;base64,${base64Data}`;
 							}
-							break;
-						
-						// Audio support commented out for now
-						// case 'input_audio':
-						// 	if (item.audioData && item.audioFormat) {
-						// 		contentItems.push({
-						// 			type: 'input_audio',
-						// 			input_audio: {
-						// 				data: item.audioData,
-						// 				format: item.audioFormat
-						// 			}
-						// 		});
-						// 	}
-						// 	break;
-						
-						// File support commented out for now
-						// case 'file':
-						// 	if (item.fileData && item.fileName) {
-						// 		contentItems.push({
-						// 			type: 'file',
-						// 			file: {
-						// 				file_data: item.fileData,
-						// 				filename: item.fileName
-						// 			}
-						// 		});
-						// 	}
-						// 	break;
+							contentItems.push({
+								type: 'image_url' as const,
+								imageUrl: {
+									url: base64Data
+								}
+							} as any);
+						} else if (item.imageSource === 'url' && item.imageUrl) {
+							contentItems.push({
+								type: 'image_url' as const,
+								imageUrl: {
+									url: item.imageUrl.trim()
+								}
+							} as any);
+						} else if (!item.imageSource && item.imageUrl) {
+							// Backward compatibility
+							contentItems.push({
+								type: 'image_url' as const,
+								imageUrl: {
+									url: item.imageUrl.trim()
+								}
+							} as any);
+						}
 					}
 					
 					if (contentItems.length > 0) {
