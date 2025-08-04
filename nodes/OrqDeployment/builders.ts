@@ -47,14 +47,14 @@ export class MessageBuilder {
 							}
 							contentItems.push({
 								type: 'image_url' as const,
-								imageUrl: {
+								image_url: {
 									url: base64Data
 								}
 							} as any);
 						} else if (item.imageSource === 'url' && item.imageUrl) {
 							contentItems.push({
 								type: 'image_url' as const,
-								imageUrl: {
+								image_url: {
 									url: item.imageUrl.trim()
 								}
 							} as any);
@@ -62,7 +62,7 @@ export class MessageBuilder {
 							// Backward compatibility
 							contentItems.push({
 								type: 'image_url' as const,
-								imageUrl: {
+								image_url: {
 									url: item.imageUrl.trim()
 								}
 							} as any);
