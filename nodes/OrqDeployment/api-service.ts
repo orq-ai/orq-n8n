@@ -1,30 +1,26 @@
 import { ILoadOptionsFunctions, IExecuteFunctions, INodePropertyOptions, NodeOperationError } from 'n8n-workflow';
-import { OrqApiResponse, OrqRequestBody, OrqCredentials, OrqDeploymentListResponse, OrqDeployment } from './types';
-import { ERROR_MESSAGES } from './constants';
-import { Orq } from "@orq-ai/node";
+import { OrqApiResponse, OrqDeployment, OrqRequestBody, OrqDeploymentListResponse } from './types';
+import { DEFAULT_BASE_URL, DEPLOYMENTS_LIST_ENDPOINT, DEPLOYMENT_INVOKE_ENDPOINT, ERROR_MESSAGES } from './constants';
 
 export class OrqApiService {
-	private static async getOrqClient(context: ILoadOptionsFunctions | IExecuteFunctions): Promise<Orq> {
-		const credentials = await context.getCredentials('orqApi') as OrqCredentials;
-		return new Orq({
-			apiKey: credentials.apiKey,
-		});
-	}
-
 	static async getDeploymentKeys(context: ILoadOptionsFunctions): Promise<INodePropertyOptions[]> {
+		const baseUrl = DEFAULT_BASE_URL;
+		
 		try {
-			const orq = await this.getOrqClient(context);
-			const response = await orq.deployments.list() as OrqDeploymentListResponse;
-			
-			const deployments = response.data || [];
+			const response = await context.helpers.requestWithAuthentication.call(context, 'orqApi', {
+				method: 'GET',
+				url: `${baseUrl}${DEPLOYMENTS_LIST_ENDPOINT}?limit=50`,
+				json: true,
+			}) as OrqDeploymentListResponse;
+
+			const deployments = (response.data || response) as OrqDeployment[];
 			
 			return deployments.map((deployment: OrqDeployment) => ({
-				name: deployment.description || deployment.key,
+				name: deployment.key,
 				value: deployment.key,
 			}));
-		} catch (error: unknown) {
-			const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-			throw new NodeOperationError(context.getNode(), ERROR_MESSAGES.FETCH_DEPLOYMENTS_FAILED(errorMessage));
+		} catch (error: any) {
+			throw new NodeOperationError(context.getNode(), ERROR_MESSAGES.FETCH_DEPLOYMENTS_FAILED(error.message || 'Unknown error'));
 		}
 	}
 
@@ -32,21 +28,14 @@ export class OrqApiService {
 		context: IExecuteFunctions, 
 		body: OrqRequestBody
 	): Promise<OrqApiResponse> {
-		try {
-			const orq = await this.getOrqClient(context);
-			
-			const result = await orq.deployments.invoke({
-				key: body.key,
-				messages: body.messages as any,
-				context: body.context,
-				inputs: body.inputs,
-			});
-			
-			return result as OrqApiResponse;
-		} catch (error: unknown) {
-			const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-			throw new NodeOperationError(context.getNode(), ERROR_MESSAGES.DEPLOYMENT_INVOKE_FAILED(errorMessage));
-		}
+		const baseUrl = DEFAULT_BASE_URL;
+		
+		return await context.helpers.requestWithAuthentication.call(context, 'orqApi', {
+			method: 'POST',
+			url: `${baseUrl}${DEPLOYMENT_INVOKE_ENDPOINT}`,
+			body,
+			json: true,
+		});
 	}
 
 }

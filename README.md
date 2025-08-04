@@ -1,6 +1,6 @@
 # n8n-nodes-orq
 
-[![npm version](https://badge.fury.io/js/n8n-nodes-orq.svg)](https://badge.fury.io/js/n8n-nodes-orq)
+[![npm version](https://badge.fury.io/js/%40orq-ai%2Fn8n-nodes-orq.svg)](https://badge.fury.io/js/%40orq-ai%2Fn8n-nodes-orq)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This is an n8n community node that lets you use Orq.ai deployments in your n8n workflows.
@@ -14,7 +14,7 @@ Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes
 ### npm
 
 ```bash
-npm install n8n-nodes-orq
+npm install @orq-ai/n8n-nodes-orq
 ```
 
 ## Configuration

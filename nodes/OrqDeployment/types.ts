@@ -27,8 +27,9 @@ export interface OrqDeployment {
 export interface OrqContentItem {
 	type: 'text' | 'image_url';
 	text?: string;
-	imageUrl?: {
+	image_url?: {
 		url: string;
+		detail?: 'low' | 'high' | 'auto';
 	};
 }
 export interface OrqInputMessage {
