@@ -9,9 +9,10 @@ export const ERROR_MESSAGES = {
 	MESSAGE_REQUIRED: 'At least one message is required',
 	MESSAGE_TOO_LONG: 'Total message content exceeds maximum length (100KB)',
 	NO_CREDENTIALS: 'No credentials configured. Please add Orq API credentials.',
-	INVALID_CONTEXT_KEY: (key: string) => `Invalid context key "${key}". Only alphanumeric characters, underscores, and hyphens are allowed.`,
-	INVALID_INPUT_KEY: (key: string) => `Invalid input key "${key}". Only alphanumeric characters, underscores, and hyphens are allowed.`,
+	INVALID_CONTEXT_KEY: (key: string) =>
+		`Invalid context key "${key}". Only alphanumeric characters, underscores, and hyphens are allowed.`,
+	INVALID_INPUT_KEY: (key: string) =>
+		`Invalid input key "${key}". Only alphanumeric characters, underscores, and hyphens are allowed.`,
 	FETCH_DEPLOYMENTS_FAILED: (error: string) => `Failed to fetch deployments: ${error}`,
 	DEPLOYMENT_INVOKE_FAILED: (error: string) => `Failed to invoke deployment: ${error}`,
 };
-

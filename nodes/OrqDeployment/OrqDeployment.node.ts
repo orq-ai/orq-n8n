@@ -73,12 +73,12 @@ export class OrqDeployment implements INodeType {
 			// Validate required fields
 			Validators.validateDeploymentKey(deploymentKey, this.getNode());
 			Validators.validateMessages(messages, this.getNode());
-			
+
 			// Build request body
 			const body = RequestBodyBuilder.build(deploymentKey, messages, contextObj, inputsObj);
 			try {
 				// Get credentials
-				const credentials = await this.getCredentials('orqApi') as OrqCredentials;
+				const credentials = (await this.getCredentials('orqApi')) as OrqCredentials;
 				Validators.validateCredentials(credentials, this.getNode());
 
 				// Make the API request
@@ -111,27 +111,27 @@ export class OrqDeployment implements INodeType {
 				returnData.push({ json: responseData });
 			} catch (error: any) {
 				if (this.continueOnFail()) {
-					returnData.push({ 
-						json: { 
+					returnData.push({
+						json: {
 							error: error.message || 'Request failed',
 							statusCode: error.response?.status || error.statusCode || 'Unknown',
 							details: error.response?.data || error.description || undefined,
 							// _debug: {
 							// 	requestBody: body
 							// }
-						} 
+						},
 					});
 					continue;
 				}
-				
+
 				// Include debug info in error description
 				// const debugInfo = JSON.stringify({
 				// 	requestBody: body
 				// }, null, 2);
-				
+
 				throw new NodeOperationError(this.getNode(), error.message || 'Request failed', {
 					// description: `${error.response?.data?.message || error.description || ''}\n\nDEBUG INFO:\n${debugInfo}`
-					description: `${error.response?.data?.message || error.description}`
+					description: `${error.response?.data?.message || error.description}`,
 				});
 			}
 		}

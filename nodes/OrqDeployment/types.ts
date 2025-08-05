@@ -10,7 +10,7 @@ export interface OrqDeployment {
 			function: {
 				name: string;
 				parameters: {
-					type: "object";
+					type: 'object';
 					properties: Record<string, unknown>;
 				};
 			};
@@ -135,7 +135,7 @@ export interface OrqApiResponse {
 }
 
 export interface OrqDeploymentListResponse {
-	object: "list";
+	object: 'list';
 	data: OrqDeployment[];
 	hasMore: boolean;
 }

@@ -7,7 +7,8 @@ export const deploymentKeyProperty: INodeProperties = {
 	type: 'options',
 	required: true,
 	default: '',
-	description: 'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
+	description:
+		'Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>',
 	typeOptions: {
 		loadOptionsMethod: 'getDeploymentKeys',
 	},
@@ -39,7 +40,7 @@ export const messagesProperty: INodeProperties = {
 						{ name: 'Assistant', value: 'assistant' },
 						{ name: 'System', value: 'system' },
 						{ name: 'User', value: 'user' },
-					]
+					],
 				},
 				// Audio Data field commented out
 				// {
@@ -231,17 +232,18 @@ export const messagesProperty: INodeProperties = {
 							contentType: ['text'],
 						},
 					},
-				}
-			]
-		}
-	]
+				},
+			],
+		},
+	],
 };
 
 export const contextProperty: INodeProperties = {
 	displayName: 'Context',
 	name: 'context',
 	type: 'fixedCollection',
-	description: 'Context key-value pairs. <a href="https://docs.orq.ai/docs/deployment-routing" target="_blank">Learn more about deployment routing</a>.',
+	description:
+		'Context key-value pairs. <a href="https://docs.orq.ai/docs/deployment-routing" target="_blank">Learn more about deployment routing</a>.',
 	default: {},
 	typeOptions: {
 		multipleValues: true,
@@ -266,10 +268,10 @@ export const contextProperty: INodeProperties = {
 					description: 'Context value',
 					default: '',
 					placeholder: 'e.g. production',
-				}
-			]
-		}
-	]
+				},
+			],
+		},
+	],
 };
 
 export const inputsProperty: INodeProperties = {
@@ -305,10 +307,10 @@ export const inputsProperty: INodeProperties = {
 					typeOptions: {
 						rows: 1,
 					},
-				}
-			]
-		}
-	]
+				},
+			],
+		},
+	],
 };
 
 export const allProperties: INodeProperties[] = [
