@@ -28,6 +28,7 @@ npm install @orq-ai/n8n-nodes-orq
 ## Features
 
 ### Deployment Invoke
+
 Invoke an Orq deployment with messages, context, and inputs.
 
 #### Parameters:
@@ -53,6 +54,7 @@ Invoke an Orq deployment with messages, context, and inputs.
 ### Basic Text Conversation
 
 1. Create a deployment in Orq.ai:
+
    ```
    You are a helpful assistant specialized in {{specialty}}.
    ```
@@ -83,6 +85,7 @@ Invoke an Orq deployment with messages, context, and inputs.
 ## Supported Models
 
 Works with any model configured in your Orq deployment, including:
+
 - OpenAI (GPT-4, GPT-3.5)
 - Anthropic (Claude)
 - Google (Gemini)
@@ -90,10 +93,10 @@ Works with any model configured in your Orq deployment, including:
 
 ## Resources
 
-* [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
-* [Orq.ai Documentation](https://docs.orq.ai)
-* [Orq.ai Deployment Routing](https://docs.orq.ai/docs/deployment-routing)
-* [GitHub Repository](https://github.com/orq-ai/orq-n8n)
+- [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
+- [Orq.ai Documentation](https://docs.orq.ai)
+- [Orq.ai Deployment Routing](https://docs.orq.ai/docs/deployment-routing)
+- [GitHub Repository](https://github.com/orq-ai/orq-n8n)
 
 ## License
 

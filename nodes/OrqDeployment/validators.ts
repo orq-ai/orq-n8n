@@ -18,9 +18,10 @@ export class Validators {
 
 	static validateKey(key: string, type: 'context' | 'input', node: INode): void {
 		if (!KEY_VALIDATION_REGEX.test(key)) {
-			const errorMessage = type === 'context' 
-				? ERROR_MESSAGES.INVALID_CONTEXT_KEY(key)
-				: ERROR_MESSAGES.INVALID_INPUT_KEY(key);
+			const errorMessage =
+				type === 'context'
+					? ERROR_MESSAGES.INVALID_CONTEXT_KEY(key)
+					: ERROR_MESSAGES.INVALID_INPUT_KEY(key);
 			throw new NodeOperationError(node, errorMessage);
 		}
 	}
