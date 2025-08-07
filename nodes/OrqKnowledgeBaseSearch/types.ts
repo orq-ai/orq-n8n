@@ -1,13 +1,12 @@
 import { IDataObject } from 'n8n-workflow';
 
-// Filter operator types
 export interface FilterOperator {
 	eq?: string | number | boolean;
 	ne?: string | number | boolean;
-	gt?: string | number;
-	gte?: string | number;
-	lt?: string | number;
-	lte?: string | number;
+	gt?: number;
+	gte?: number;
+	lt?: number;
+	lte?: number;
 	in?: (string | number | boolean)[];
 	nin?: (string | number | boolean)[];
 }

@@ -89,7 +89,7 @@ export class InputValidator {
 		}
 
 		if (request.filter_by !== undefined) {
-			validated.filter_by = request.filter_by; // Filter validation is complex, kept as-is
+			validated.filter_by = request.filter_by;
 		}
 
 		return validated;

@@ -20,7 +20,6 @@ export class OrqKnowledgeBaseSearch implements INodeType {
 		icon: 'file:orq.svg',
 		group: ['transform'],
 		version: 1,
-		subtitle: '={{$parameter["knowledgeBase"]}}',
 		description: 'Search content in an Orq.ai knowledge base',
 		defaults: {
 			name: 'Orq Knowledge Base Search',
@@ -53,29 +52,21 @@ export class OrqKnowledgeBaseSearch implements INodeType {
 			let searchRequest: any = {};
 
 			try {
-				// Get and validate knowledge base ID
 				knowledgeBaseId = InputValidator.validateKnowledgeBaseId(
 					this.getNode(),
 					this.getNodeParameter('knowledgeBase', itemIndex),
 				);
 
-				// Build the search request with all validations
 				searchRequest = RequestBuilder.buildSearchRequest(this, itemIndex);
 
-				// Execute the search
 				const response = await KnowledgeBaseService.searchKnowledgeBase(
 					this,
 					knowledgeBaseId,
 					searchRequest,
 				);
 
-				// Include request body in output for debugging
 				const outputData = {
 					...response,
-					_debug: {
-						request: searchRequest,
-						knowledgeBaseId: knowledgeBaseId,
-					},
 				};
 
 				returnData.push({
@@ -85,18 +76,9 @@ export class OrqKnowledgeBaseSearch implements INodeType {
 			} catch (error) {
 				if (this.continueOnFail()) {
 					const errorResponse = OrqKnowledgeBaseSearch.buildErrorResponse(error);
-					
-					// Include debug info in error response
-					const errorOutput = {
-						...errorResponse,
-						_debug: {
-							request: searchRequest,
-							knowledgeBaseId: knowledgeBaseId,
-						},
-					};
-					
+
 					returnData.push({
-						json: errorOutput,
+						json: errorResponse,
 						pairedItem: { item: itemIndex },
 					});
 					continue;

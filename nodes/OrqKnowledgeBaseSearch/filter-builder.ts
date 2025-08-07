@@ -26,7 +26,6 @@ export class FilterBuilder {
 		}
 	}
 
-
 	private static buildLogicalFilter(
 		context: IExecuteFunctions,
 		itemIndex: number,
@@ -81,14 +80,12 @@ export class FilterBuilder {
 			const arrayValues = InputValidator.parseArrayValue(value);
 			return { [operator]: arrayValues };
 		} else if (operator === 'gt' || operator === 'gte' || operator === 'lt' || operator === 'lte') {
-			// For numeric comparison operators, ensure the value is a number
 			const numValue = typeof value === 'string' ? parseFloat(value) : value;
 			if (isNaN(numValue)) {
 				throw new Error(`Value for ${operator} operator must be a number, got: ${value}`);
 			}
 			return { [operator]: numValue };
 		} else {
-			// For eq, ne, and other operators, parse normally
 			const parsedValue = InputValidator.parseValue(value);
 			return { [operator]: parsedValue };
 		}

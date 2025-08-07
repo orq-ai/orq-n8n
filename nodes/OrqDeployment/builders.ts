@@ -24,12 +24,9 @@ export class MessageBuilder {
 					content: '',
 				};
 
-				// Handle content based on role and content type
 				if (item.role === 'user' && item.contentType && item.contentType !== 'text') {
-					// User role with multimodal content
 					const contentItems: OrqContentItem[] = [];
 
-					// Add optional text content for images if provided
 					if (item.contentType === 'image' && item.message && item.message.trim() !== '') {
 						contentItems.push({
 							type: 'text',
@@ -40,9 +37,7 @@ export class MessageBuilder {
 					if (item.contentType === 'image') {
 						if (item.imageSource === 'base64' && item.imageData) {
 							let base64Data = item.imageData.trim();
-							// Ensure we have a proper data URI
 							if (!base64Data.startsWith('data:')) {
-								// If it's just base64, add the data URI prefix
 								base64Data = `data:image/png;base64,${base64Data}`;
 							}
 							contentItems.push({
@@ -59,7 +54,6 @@ export class MessageBuilder {
 								},
 							} as any);
 						} else if (!item.imageSource && item.imageUrl) {
-							// Backward compatibility
 							contentItems.push({
 								type: 'image_url' as const,
 								image_url: {
@@ -72,10 +66,9 @@ export class MessageBuilder {
 					if (contentItems.length > 0) {
 						message.content = contentItems;
 					} else {
-						continue; // Skip if no content
+						continue;
 					}
 				} else {
-					// Non-user roles or text-only content
 					if (!item.message || item.message.trim() === '') continue;
 					message.content = item.message.trim();
 				}
