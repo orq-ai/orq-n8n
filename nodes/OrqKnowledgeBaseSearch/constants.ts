@@ -1,11 +1,9 @@
-// API Configuration
 export const API_ENDPOINTS = {
 	BASE_URL: 'https://api.orq.ai',
 	KNOWLEDGE_BASES: '/v2/knowledge?limit=50',
 	KNOWLEDGE_BASE_SEARCH: '/v2/knowledge/{knowledge_id}/search',
 } as const;
 
-// Error Messages
 export const ERROR_MESSAGES = {
 	NO_KNOWLEDGE_BASE: 'No knowledge base selected',
 	NO_QUERY: 'Search query is required',
@@ -15,7 +13,6 @@ export const ERROR_MESSAGES = {
 	UNAUTHORIZED: 'Unauthorized - check your API key',
 } as const;
 
-// Search Configuration
 export const SEARCH_CONFIG = {
 	DEFAULT_TOP_K: 10,
 	MIN_TOP_K: 1,
@@ -26,7 +23,6 @@ export const SEARCH_CONFIG = {
 	MAX_QUERY_LENGTH: 10000,
 } as const;
 
-// Filter Operators
 export const FILTER_OPERATORS = {
 	EQUALS: 'eq',
 	NOT_EQUALS: 'ne',

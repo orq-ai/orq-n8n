@@ -42,39 +42,6 @@ export const messagesProperty: INodeProperties = {
 						{ name: 'User', value: 'user' },
 					],
 				},
-				// Audio Data field commented out
-				// {
-				// 	displayName: 'Audio Data',
-				// 	name: 'audioData',
-				// 	type: 'string',
-				// 	default: '',
-				// 	description: 'Base64 encoded audio data',
-				// 	required: true,
-				// 	displayOptions: {
-				// 		show: {
-				// 			role: ['user'],
-				// 			contentType: ['input_audio'],
-				// 		},
-				// 	},
-				// },
-				// Audio Format field commented out
-				// {
-				// 	displayName: 'Audio Format',
-				// 	name: 'audioFormat',
-				// 	type: 'options',
-				// 	default: 'wav',
-				// 	required: true,
-				// 	options: [
-				// 		{ name: 'WAV', value: 'wav' },
-				// 		{ name: 'MP3', value: 'mp3' },
-				// 	],
-				// 	displayOptions: {
-				// 		show: {
-				// 			role: ['user'],
-				// 			contentType: ['input_audio'],
-				// 		},
-				// 	},
-				// },
 				{
 					displayName: 'Content Type',
 					name: 'contentType',
@@ -84,9 +51,6 @@ export const messagesProperty: INodeProperties = {
 					options: [
 						{ name: 'Text', value: 'text' },
 						{ name: 'Image', value: 'image' },
-						// Audio and File support commented out for now
-						// { name: 'Audio', value: 'input_audio' },
-						// { name: 'File', value: 'file' },
 					],
 					displayOptions: {
 						show: {
@@ -94,41 +58,6 @@ export const messagesProperty: INodeProperties = {
 						},
 					},
 				},
-				// File Data field commented out
-				// {
-				// 	displayName: 'File Data',
-				// 	name: 'fileData',
-				// 	type: 'string',
-				// 	default: '',
-				// 	description: 'Base64 encoded file data',
-				// 	placeholder: 'Enter base64 encoded file data...',
-				// 	required: true,
-				// 	typeOptions: {
-				// 		rows: 4,
-				// 	},
-				// 	displayOptions: {
-				// 		show: {
-				// 			role: ['user'],
-				// 			contentType: ['file'],
-				// 		},
-				// 	},
-				// },
-				// File Name field commented out
-				// {
-				// 	displayName: 'File Name',
-				// 	name: 'fileName',
-				// 	type: 'string',
-				// 	default: '',
-				// 	description: 'Name of the file including extension',
-				// 	placeholder: 'document.pdf',
-				// 	required: true,
-				// 	displayOptions: {
-				// 		show: {
-				// 			role: ['user'],
-				// 			contentType: ['file'],
-				// 		},
-				// 	},
-				// },
 				{
 					displayName: 'Image Source',
 					name: 'imageSource',

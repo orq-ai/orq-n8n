@@ -15,19 +15,21 @@ export class RequestBuilder {
 			query: InputValidator.validateQuery(context.getNode(), query),
 		};
 
-		// Add optional parameters if provided
 		if (additionalOptions.top_k !== undefined) {
 			request.top_k = InputValidator.validateTopK(context.getNode(), additionalOptions.top_k);
 		}
 
-		if (additionalOptions.threshold !== undefined && additionalOptions.threshold !== null && additionalOptions.threshold !== '') {
+		if (
+			additionalOptions.threshold !== undefined &&
+			additionalOptions.threshold !== null &&
+			additionalOptions.threshold !== ''
+		) {
 			request.threshold = InputValidator.validateThreshold(
 				context.getNode(),
 				additionalOptions.threshold,
 			);
 		}
 
-		// Handle metadata filtering
 		const metadataFilterType = context.getNodeParameter(
 			'metadataFilterType',
 			itemIndex,

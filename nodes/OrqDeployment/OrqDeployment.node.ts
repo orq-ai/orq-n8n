@@ -56,44 +56,26 @@ export class OrqDeployment implements INodeType {
 		const returnData: INodeExecutionData[] = [];
 
 		for (let i = 0; i < items.length; i++) {
-			// Get required parameters
 			const deploymentKey = this.getNodeParameter('deploymentKey', i) as string;
 			const messagesData = this.getNodeParameter('messages', i) as OrqFixedCollectionMessages;
 
-			// Get context and inputs
 			const context = this.getNodeParameter('context', i) as OrqFixedCollectionContext;
 			const contextObj = ContextBuilder.buildContext(context, this.getNode());
 
 			const inputs = this.getNodeParameter('inputs', i) as OrqFixedCollectionInputs;
 
-			// Build
 			const messages = MessageBuilder.buildMessages(messagesData);
 			const inputsObj = InputsBuilder.buildInputs(inputs, this.getNode());
 
-			// Validate required fields
 			Validators.validateDeploymentKey(deploymentKey, this.getNode());
 			Validators.validateMessages(messages, this.getNode());
 
-			// Build request body
 			const body = RequestBodyBuilder.build(deploymentKey, messages, contextObj, inputsObj);
 			try {
-				// Get credentials
 				const credentials = (await this.getCredentials('orqApi')) as OrqCredentials;
 				Validators.validateCredentials(credentials, this.getNode());
 
-				// Make the API request
 				const response = await OrqApiService.invokeDeployment(this, body);
-
-				// Add debug info to response
-				// const responseWithDebug = {
-				// 	...response,
-				// 	_debug: {
-				// 		requestBody: body
-				// 	}
-				// };
-				// returnData.push({ json: responseWithDebug });
-
-				// Convert OrqApiResponse to a plain object
 				const responseData = {
 					id: response.id,
 					created: response.created,
@@ -116,21 +98,12 @@ export class OrqDeployment implements INodeType {
 							error: error.message || 'Request failed',
 							statusCode: error.response?.status || error.statusCode || 'Unknown',
 							details: error.response?.data || error.description || undefined,
-							// _debug: {
-							// 	requestBody: body
-							// }
 						},
 					});
 					continue;
 				}
 
-				// Include debug info in error description
-				// const debugInfo = JSON.stringify({
-				// 	requestBody: body
-				// }, null, 2);
-
 				throw new NodeOperationError(this.getNode(), error.message || 'Request failed', {
-					// description: `${error.response?.data?.message || error.description || ''}\n\nDEBUG INFO:\n${debugInfo}`
 					description: `${error.response?.data?.message || error.description}`,
 				});
 			}

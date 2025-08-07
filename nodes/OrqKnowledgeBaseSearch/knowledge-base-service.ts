@@ -60,7 +60,6 @@ export class KnowledgeBaseService {
 				description: kb.description,
 			}));
 		} catch (error) {
-			// Return empty array on error to avoid breaking the UI
 			return [];
 		}
 	}
@@ -70,7 +69,6 @@ export class KnowledgeBaseService {
 		knowledgeId: string,
 		searchRequest: IOrqKnowledgeBaseSearchRequest,
 	): Promise<IOrqKnowledgeBaseSearchResponse> {
-		// Validate inputs
 		const validatedId = InputValidator.validateKnowledgeBaseId(context.getNode(), knowledgeId);
 		const validatedRequest = InputValidator.validateSearchRequest(context.getNode(), searchRequest);
 
@@ -107,13 +105,10 @@ export class KnowledgeBaseService {
 	private static parseKnowledgeBasesResponse(response: any): IOrqKnowledgeBase[] {
 		if (!response) return [];
 
-		// Handle the Orq API response format
 		if (this.isOrqApiResponse(response)) {
 			const apiResponse = response as IOrqKnowledgeBaseListResponse;
 			return apiResponse.data.map(this.mapApiResponseToKnowledgeBase);
 		}
-
-		// Handle array response
 		if (Array.isArray(response)) {
 			return response;
 		}
