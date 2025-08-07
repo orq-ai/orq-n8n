@@ -20,7 +20,6 @@ export class OrqKnowledgeBaseSearch implements INodeType {
 		icon: 'file:orq.svg',
 		group: ['transform'],
 		version: 1,
-		subtitle: '={{$parameter["knowledgeBase"]}}',
 		description: 'Search content in an Orq.ai knowledge base',
 		defaults: {
 			name: 'Orq Knowledge Base Search',
@@ -72,10 +71,10 @@ export class OrqKnowledgeBaseSearch implements INodeType {
 				// Include request body in output for debugging
 				const outputData = {
 					...response,
-					_debug: {
-						request: searchRequest,
-						knowledgeBaseId: knowledgeBaseId,
-					},
+					// _debug: {
+					// 	request: searchRequest,
+					// 	knowledgeBaseId: knowledgeBaseId,
+					// },
 				};
 
 				returnData.push({
@@ -89,10 +88,10 @@ export class OrqKnowledgeBaseSearch implements INodeType {
 					// Include debug info in error response
 					const errorOutput = {
 						...errorResponse,
-						_debug: {
-							request: searchRequest,
-							knowledgeBaseId: knowledgeBaseId,
-						},
+						// _debug: {
+						// 	request: searchRequest,
+						// 	knowledgeBaseId: knowledgeBaseId,
+						// },
 					};
 					
 					returnData.push({
