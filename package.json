@@ -1,6 +1,6 @@
 {
 	"name": "@orq-ai/n8n-nodes-orq",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "n8n community node for Orq.ai - AI deployment and prompt management platform",
 	"keywords": [
 		"n8n-community-node-package",
@@ -41,7 +41,8 @@
 			"dist/credentials/OrqApi.credentials.js"
 		],
 		"nodes": [
-			"dist/nodes/OrqDeployment/OrqDeployment.node.js"
+			"dist/nodes/OrqDeployment/OrqDeployment.node.js",
+			"dist/nodes/OrqKnowledgeBaseSearch/OrqKnowledgeBaseSearch.node.js"
 		]
 	},
 	"devDependencies": {
