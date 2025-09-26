@@ -90,7 +90,7 @@ export class OrqDeployment implements INodeType {
 					providerResponse: response.providerResponse,
 					choices: response.choices,
 				};
-				returnData.push({ json: responseData });
+				returnData.push({ json: responseData, pairedItem: { item: i } });
 			} catch (error: any) {
 				if (this.continueOnFail()) {
 					returnData.push({
@@ -99,6 +99,7 @@ export class OrqDeployment implements INodeType {
 							statusCode: error.response?.status || error.statusCode || 'Unknown',
 							details: error.response?.data || error.description || undefined,
 						},
+						pairedItem: { item: i },
 					});
 					continue;
 				}
